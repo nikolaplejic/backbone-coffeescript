@@ -32,3 +32,22 @@ $ ->
     initialize: () =>
       @bind "add", (project) ->
         console.log project
+
+  class window.tt.Task extends Backbone.Model
+    idAttribute: "_id"
+    validate: (attrs) ->
+      if attrs.project is null
+        return "Project cannot be null"
+    defaults: ->
+      name: "A Task"
+      project: null
+    parse: (data) =>
+      data[@idAttribute] = data[@idAttribute].$oid
+      data
+
+  class window.tt.TaskCollection extends Backbone.Collection
+    model: window.tt.Task
+    url: '/tasks'
+    initialize: () =>
+      @bind "add", (task) ->
+        console.log task

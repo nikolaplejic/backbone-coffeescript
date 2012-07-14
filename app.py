@@ -22,6 +22,8 @@ mongo = Connection(app.config['MONGODB_HOST'],
 def index():
   abort(403)
 
+# ---
+
 @app.route('/clients', methods=['GET', 'POST'])
 def clients():
   if request.method == 'POST':
@@ -32,6 +34,8 @@ def clients():
   elif request.method == 'GET':
     data = list(mongo['tt'].clients.find())
     return json.dumps(data, default=json_util.default)
+
+# ---
 
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
@@ -44,6 +48,23 @@ def projects():
   elif request.method == 'GET':
     data = list(mongo['tt'].projects.find())
     return json.dumps(data, default=json_util.default)
+
+# ---
+
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks():
+  if request.method == 'POST':
+    data = json.loads(request.data)
+    data["project"] = dbref.DBRef("projects", data["project"])
+    coll = mongo['tt'].tasks
+    oid = coll.insert(data)
+    return json.dumps(data, default=json_util.default)
+  elif request.method == 'GET':
+    data = list(mongo['tt'].tasks.find())
+    return json.dumps(data, default=json_util.default)
+
+# ---
+
 
 if __name__ == '__main__':
   app.run()
