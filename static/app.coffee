@@ -16,9 +16,11 @@ $ ->
 
   class TimeTracker extends Backbone.View
     el: $("#app-container")
+
     initialize: () ->
       $("#time span").html(0)
       $("#toggle-time").data("status", "stopped")
+      
     handleTimeToggle: (e) =>
       e.preventDefault()
 
@@ -43,11 +45,13 @@ $ ->
 
   class ClientList extends Backbone.View
     el: $("#client")
+
     initialize: () =>
       @clients = new window.tt.ClientCollection null, { view: @ }
       clients_jqxhr = @clients.fetch()
       $.when(clients_jqxhr).done () =>
         @render()
+
     handleChange: () =>
       if $("option:selected", @el).val() is "new"
         client = prompt "Name of client?"
@@ -60,6 +64,7 @@ $ ->
       else
         console.log "foo"
       @
+
     render: () =>
       $(@el).empty()
       $(@el).append $("<option>").val("").html("")
@@ -69,16 +74,19 @@ $ ->
         $(@el).append client_template({ id: c.id, name: c.get('name') })
 
       $(@el).append $("<option>").val("new").html("add...")
+
     events:
       "change": "handleChange"
 
   class ProjectList extends Backbone.View
     el: $("#project")
+
     initialize: () =>
       @projects = new window.tt.ProjectCollection null, { view: @ }
       projects_jqxhr = @projects.fetch()
       $.when(projects_jqxhr).done () =>
         @render()
+
     handleChange: (e) =>
       if $("option:selected", @el).val() is "new"
         if !window.tt.isClientSelected()
@@ -98,6 +106,7 @@ $ ->
       else
         console.log "foo"
       @
+
     render: () =>
       $(@el).empty()
       $(@el).append $("<option>").val("").html("")
@@ -107,6 +116,7 @@ $ ->
         $(@el).append project_template({ id: c.id, name: c.get('name') })
 
       $(@el).append $("<option>").val("new").html("add...")
+
     events:
       "change": "handleChange"
 
