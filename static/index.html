@@ -10,6 +10,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js" type="text/javascript"></script>
     <script type="text/javascript">window.tt = {};</script>
     <script src="/static/models.js" type="text/javascript"></script>
+    <script src="/static/views.js" type="text/javascript"></script>
     <script src="/static/app.js" type="text/javascript"></script>
     <style type="text/css">
       input#task { width: 300px; }
@@ -45,12 +46,34 @@
     </form>
   </div>
 
+  <div class="container" id="task-container" style="padding-top: 30px;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th style="width: 300px;">Project</th>
+          <th style="width: 300px;">Task</th>
+          <th style="width: 160px;">Time spent</th>
+        </tr>
+      </thead>
+      <tbody id="task-list">
+      </tbody>
+    </table>
+  </div>
+
   <script type="text/x-underscore-template" id="client-template">
     <option value="<%= id %>"><%= name %></option>
   </script>
 
   <script type="text/x-underscore-template" id="project-template">
     <option value="<%= id %>"><%= name %></option>
+  </script>
+
+  <script type="text/x-underscore-template" id="task-list-entry-template">
+    <tr>
+      <td><%= project %></td>
+      <td><%= task %></td>
+      <td><%= time_spent %></td>
+    </tr>
   </script>
 </body>
 </html>
